@@ -101,7 +101,7 @@ void First (tList *L) {
 **/
 	
 
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    L->Act = L->First;
 }
 
 void CopyFirst (tList *L, int *val) {
@@ -185,8 +185,8 @@ int Active (tList *L) {
 ** Tuto funkci je vhodné implementovat jedním příkazem return. 
 **/
 	
-	
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    return (L->Act == NULL ? 0 : 1);	
+
 }
 
 /* Konec c201.c */
