@@ -79,6 +79,7 @@ void DisposeList (tList *L) {
 ** uvolněna voláním operace free.
 ***/
 	
+    L->Act = NULL;
     while(L->First != NULL){
         tElemPtr next_element = L->First->ptr;
         tElemPtr to_delete = L->First;
@@ -150,8 +151,9 @@ void DeleteFirst (tList *L) {
     }
     else{
         // checks whether the first one is also the active one
-        if(L->First == L->Act)
+        if(L->First == L->Act){
             L->Act = NULL;
+        }
     
         tElemPtr new_first = L->First->ptr; // save pointer to the second element
         tElemPtr to_delete = L->First;  // save pointer to the first element
@@ -180,9 +182,9 @@ void PostDelete (tList *L) {
         tElemPtr to_delete;
         tElemPtr after_delete;
 
-        to_delete = L->Act;
-        after_delete = L->Act->ptr;
-        L->Act = after_delete;
+        to_delete = L->Act->ptr;
+        after_delete = L->Act->ptr->ptr;
+        L->Act->ptr = after_delete;
 
         free(to_delete);
     }
@@ -210,9 +212,9 @@ void PostInsert (tList *L, int val) {
         }
         
         tElemPtr tmp_ptr = L->Act->ptr;
-
         L->Act->ptr = new_element;
         new_element->ptr = tmp_ptr;
+        new_element->data = val;
     }
 }
 
