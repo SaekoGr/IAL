@@ -79,8 +79,13 @@ void DisposeList (tList *L) {
 ** uvolněna voláním operace free.
 ***/
 	
+    while(L->First != NULL){
+        tElemPtr next_element = L->First->ptr;
+        tElemPtr to_delete = L->First;
 
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+        free(to_delete);
+        L->First = next_element;
+    }
 }
 
 void InsertFirst (tList *L, int val) {
@@ -100,7 +105,7 @@ void InsertFirst (tList *L, int val) {
     }  
     else{
         tmp_struct_pointer->data = val; // data is saved
-        tmp_struct_pointer->ptr = L->First; // first element becomes the second
+        tmp_struct_pointer->ptr = L->First; // original first element becomes the second
         L->First = tmp_struct_pointer;  // new element becomes the first one
     }
 
@@ -139,8 +144,22 @@ void DeleteFirst (tList *L) {
 ** Pokud byl seznam L prázdný, nic se neděje.
 **/
 	
+    // return if list is empty
+    if(L->First == NULL){
+        return;
+    }
+    else{
+        // checks whether the first one is also the active one
+        if(L->First == L->Act)
+            L->Act = NULL;
+    
+        tElemPtr new_first = L->First->ptr; // save pointer to the second element
+        tElemPtr to_delete = L->First;  // save pointer to the first element
+        L->First = new_first;   // second element is now the first one
 
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+        free(to_delete);    // free the pointer to the original first element
+
+    }
 }	
 
 void PostDelete (tList *L) {
@@ -150,8 +169,24 @@ void PostDelete (tList *L) {
 ** nic se neděje.
 **/
 	
-	
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    // check whether active
+    if(L->Act == NULL){
+        return;
+    }
+    else if(L->Act->ptr == NULL){
+        return;
+    }
+    else{
+        tElemPtr to_delete;
+        tElemPtr after_delete;
+
+        to_delete = L->Act;
+        after_delete = L->Act->ptr;
+        L->Act = after_delete;
+
+        free(to_delete);
+    }
+
 }
 
 void PostInsert (tList *L, int val) {
@@ -162,16 +197,23 @@ void PostInsert (tList *L, int val) {
 ** zavolá funkci Error().
 **/
 	
-    tElemPtr tmp_another_pointer;
-    tmp_another_pointer = (struct tElem*) malloc(sizeof(struct tElem));
-    if(tmp_another_pointer == NULL){
-        Error();
+    // check whether active
+    if(L->Act == NULL){
+            return;
     }
-    else{
-        L->Act->ptr = tmp_another_pointer; 
+    else {// temporary pointer
+        tElemPtr new_element;
+        // allocate memory
+        new_element = malloc(sizeof(struct tElem));
+        if(new_element == NULL){
+            Error();
+        }
+        
+        tElemPtr tmp_ptr = L->Act->ptr;
+
+        L->Act->ptr = new_element;
+        new_element->ptr = tmp_ptr;
     }
-
-
 }
 
 void Copy (tList *L, int *val) {
@@ -180,8 +222,13 @@ void Copy (tList *L, int *val) {
 ** Pokud seznam není aktivní, zavolá funkci Error().
 **/
 	
-	
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+	// check whether active
+    if(L->Act == NULL){
+        Error();
+    } // if active, pointer val will point to its data
+    else{
+        *val = L->Act->data;    // points val to the active data
+    }
 }
 
 void Actualize (tList *L, int val) {
@@ -190,8 +237,14 @@ void Actualize (tList *L, int val) {
 ** Pokud seznam L není aktivní, nedělá nic!
 **/
 	
-	
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    // check whether active
+    if(L->Act == NULL){
+        return;
+    }
+    else{
+        L->Act->data = val; // saves data to the active element
+    }
+
 }
 
 void Succ (tList *L) {
@@ -201,8 +254,14 @@ void Succ (tList *L) {
 ** Pokud není předaný seznam L aktivní, nedělá funkce nic.
 **/
 	
-	
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+	// check whether active
+    if(L->Act == NULL){
+        return;
+    }
+    else{
+        tElemPtr next_element = L->Act->ptr; // save pointer to next element
+        L->Act = next_element;  // move active pointer to the next element
+    }
 }
 
 int Active (tList *L) {
@@ -211,8 +270,8 @@ int Active (tList *L) {
 ** Tuto funkci je vhodné implementovat jedním příkazem return. 
 **/
 	
+    // if not active, return false, else return true
     return (L->Act == NULL ? FALSE : TRUE);	
-
 }
 
 /* Konec c201.c */
