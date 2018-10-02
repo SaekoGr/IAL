@@ -67,8 +67,9 @@ void InitList (tList *L) {
 ** že neinicializované proměnné mají nedefinovanou hodnotu.
 **/
 	
-
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    // initializes an empty list
+    L->Act=NULL;
+    L->First=NULL;
 }
 
 void DisposeList (tList *L) {
@@ -89,8 +90,20 @@ void InsertFirst (tList *L, int val) {
 ** volá funkci Error().
 **/
     
+    // temporary variables for storing the memory pointer
+    tElemPtr tmp_struct_pointer;
+    // try to allocate memory
+    tmp_struct_pointer = malloc(sizeof(struct tElem));
+    // if unsuccesful, go to Error()
+    if (tmp_struct_pointer == NULL){
+        Error();
+    }  
+    else{
+        tmp_struct_pointer->data = val; // data is saved
+        tmp_struct_pointer->ptr = L->First; // first element becomes the second
+        L->First = tmp_struct_pointer;  // new element becomes the first one
+    }
 
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
 }
 
 void First (tList *L) {
@@ -100,7 +113,7 @@ void First (tList *L) {
 ** zda je seznam L prázdný.
 **/
 	
-
+    // set active pointer as the first one
     L->Act = L->First;
 }
 
@@ -110,8 +123,13 @@ void CopyFirst (tList *L, int *val) {
 ** Pokud je seznam L prázdný, volá funkci Error().
 **/
 	
-
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    // checks whether list is empty or not
+    if (L->First == NULL){
+        Error();
+    }   // if it exits, pointer val will points to it's data
+    else{
+        *val = L->First->data;
+    }
 }
 
 void DeleteFirst (tList *L) {
@@ -144,8 +162,16 @@ void PostInsert (tList *L, int val) {
 ** zavolá funkci Error().
 **/
 	
-	
- solved = FALSE;                   /* V případě řešení, smažte tento řádek! */
+    tElemPtr tmp_another_pointer;
+    tmp_another_pointer = (struct tElem*) malloc(sizeof(struct tElem));
+    if(tmp_another_pointer == NULL){
+        Error();
+    }
+    else{
+        L->Act->ptr = tmp_another_pointer; 
+    }
+
+
 }
 
 void Copy (tList *L, int *val) {
@@ -185,7 +211,7 @@ int Active (tList *L) {
 ** Tuto funkci je vhodné implementovat jedním příkazem return. 
 **/
 	
-    return (L->Act == NULL ? 0 : 1);	
+    return (L->Act == NULL ? FALSE : TRUE);	
 
 }
 
