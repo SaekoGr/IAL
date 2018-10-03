@@ -97,7 +97,7 @@ int nextIndex (int index) {
 ** Funkci implementujte jako jediný prikaz využívající operace '%'.
 ** Funkci nextIndex budete využívat v dalších implementovaných funkcích.
 */
-
+	// move the index and make sure it doesn't go out of the range
 	return (index + 1) % QUEUE_SIZE;
 }
 
@@ -106,7 +106,7 @@ int queueEmpty (const tQueue* q) {
 ** Vrací nenulovou hodnotu, pokud je frona prázdná, jinak vrací hodnotu 0. 
 ** Funkci je vhodné implementovat jedním příkazem return.
 */
-
+	// queue is empty if first and last pointer point to the same char
 	return (q->f_index == q->b_index);
 }
 
@@ -116,7 +116,7 @@ int queueFull (const tQueue* q) {
 ** Funkci je vhodné implementovat jedním příkazem return
 ** s využitím pomocné funkce nextIndex.
 */
-
+	// check if first is right next to the first blank pointer
 	return (q->f_index == nextIndex(q->b_index));
 }
 
@@ -131,10 +131,10 @@ void queueFront (const tQueue* q, char* c) {
 **
 ** Při implementaci využijte dříve definované funkce queueEmpty.
 */
-
-	if (queueEmpty(q)){
+	// checks if queue is empty or not
+	if (queueEmpty(q)){	
 		queueError(QERR_FRONT);
-	}
+	}	// if not empty, save first char
 	else{
 		*c = q->arr[q->f_index];
 	}
@@ -147,10 +147,10 @@ void queueRemove (tQueue* q) {
 ** Hodnotu na uvolněné pozici ve frontě nijak neošetřujte (nepřepisujte).
 ** Při implementaci využijte dříve definované funkce queueEmpty a nextIndex.
 */
-
+	// checks if queue is empty or not
 	if(queueEmpty(q)){
 		queueError(QERR_REMOVE);
-	}
+	}	// if not empty, move the first index, don't modify the char
 	else{
 		q->f_index = nextIndex(q->f_index);
 	}
@@ -164,11 +164,11 @@ void queueGet (tQueue* q, char* c) {
 ** Při implementaci využijte dříve definovaných funkcí queueEmpty,
 ** queueFront a queueRemove.
 */
-
+	// checks if queue is empty or not
 	if(queueEmpty(q)){
 		queueError(QERR_GET);
 	}
-	else{
+	else{	// remove the first char from the queue
 		queueFront(q, c);
 		queueRemove(q);
 	}
@@ -184,10 +184,10 @@ void queueUp (tQueue* q, char c) {
 **
 ** Při implementaci využijte dříve definovaných funkcí queueFull a nextIndex.
 */
-
+	// checks if queue is empty or not
 	if(queueFull(q)){
 		queueError(QERR_UP);
-	}
+	}	// save char to the queue, move the first blank index to the next one
 	else{
 		q->arr[q->b_index] = c;
 		q->b_index = nextIndex(q->b_index);
