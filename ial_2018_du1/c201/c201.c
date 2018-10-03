@@ -79,13 +79,15 @@ void DisposeList (tList *L) {
 ** uvolněna voláním operace free.
 ***/
 	
+    // action pointer is set to NULL
     L->Act = NULL;
+    // remove elements until the first one points to NULL
     while(L->First != NULL){
-        tElemPtr next_element = L->First->ptr;
-        tElemPtr to_delete = L->First;
+        tElemPtr next_element = L->First->ptr;  // saves next element
+        tElemPtr to_delete = L->First;          // saves first element
 
-        free(to_delete);
-        L->First = next_element;
+        free(to_delete);            // delete first
+        L->First = next_element;    // set the new first
     }
 }
 
@@ -134,7 +136,7 @@ void CopyFirst (tList *L, int *val) {
         Error();
     }   // if it exits, pointer val will points to it's data
     else{
-        *val = L->First->data;
+        *val = L->First->data;  // saves the data
     }
 }
 
@@ -174,19 +176,16 @@ void PostDelete (tList *L) {
     // check whether active
     if(L->Act == NULL){
         return;
-    }
+    }   // check whether next one exists
     else if(L->Act->ptr == NULL){
         return;
-    }
+    }   // it exits and it will delete it
     else{
-        tElemPtr to_delete;
-        tElemPtr after_delete;
+        tElemPtr to_delete = L->Act->ptr; // save pointer to element to be deleted
+        tElemPtr after_delete = L->Act->ptr->ptr; // save pointer to next element
 
-        to_delete = L->Act->ptr;
-        after_delete = L->Act->ptr->ptr;
-        L->Act->ptr = after_delete;
-
-        free(to_delete);
+        free(to_delete);    // delete the element
+        L->Act->ptr = after_delete; // bind the list again
     }
 
 }
@@ -211,10 +210,10 @@ void PostInsert (tList *L, int val) {
             Error();
         }
         
-        tElemPtr tmp_ptr = L->Act->ptr;
-        L->Act->ptr = new_element;
-        new_element->ptr = tmp_ptr;
-        new_element->data = val;
+        tElemPtr tmp_ptr = L->Act->ptr; // save the next element pointer
+        L->Act->ptr = new_element;  // insert new
+        new_element->ptr = tmp_ptr; // bind the new and following element
+        new_element->data = val;    // save the data
     }
 }
 
