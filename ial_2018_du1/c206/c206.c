@@ -89,14 +89,12 @@ void DLDisposeList (tDLList *L) {
 ** uvolněny voláním operace free. 
 **/
 	
+    // delete all elements 
 	while(L->First != NULL){
-        tDLElemPtr first_element = L->First;
-
-        L->First = first_element->rptr;
-        free(first_element);
-        
+        tDLElemPtr first_element = L->First; // save to the variable
+        L->First = first_element->rptr; // First points to next element
+        free(first_element); // free the memory
     }
-
     // sets all pointers to NULL
     L->Act = NULL;
     L->First = NULL;
@@ -110,25 +108,27 @@ void DLInsertFirst (tDLList *L, int val) {
 ** volá funkci DLError().
 **/
 	
+    // allocates new memory
     tDLElemPtr first_element = malloc(sizeof(struct tDLElem));
-    if(first_element == NULL){
+    if(first_element == NULL){ // error at allocating
         DLError();
     }
-    // checks if this is the first element to be added
+    // if list is empty
     if(L->First == NULL){
-        first_element->lptr = NULL;
+        first_element->lptr = NULL; // both sides are NULL
         first_element->rptr = NULL;
-        first_element->data = val;
-        L->First = first_element;
-        L->Last = first_element;
-    }	
+        first_element->data = val; // saves the data
+        L->First = first_element; // first element is saves as first
+        L->Last = first_element; // and also the last
+    } // this is not the first element	
     else{
-        tDLElemPtr old_element = L->First;
-        first_element->data = val;
-        L->First = first_element;
-        first_element->rptr = old_element;
-        first_element->lptr = NULL;
+        tDLElemPtr old_element = L->First; // first element is temporarily stored
+        first_element->data = val; // saves the data
+        L->First = first_element; // pointer is set to new element
+        first_element->rptr = old_element; // binds the elements
         old_element->lptr = first_element;
+        first_element->lptr = NULL; // left pointer of first is set to NULL
+
     }
 
 }
@@ -140,25 +140,25 @@ void DLInsertLast(tDLList *L, int val) {
 ** volá funkci DLError().
 **/ 	
 	
+    // allocates new memory
 	tDLElemPtr last_element = malloc(sizeof(struct tDLElem));
-    if(last_element == NULL){
+    if(last_element == NULL){ // error at allocating
         DLError();
-    }
+    } // if list is empty
     else if(L->Last == NULL){
-        last_element->lptr = NULL;
+        last_element->lptr = NULL; // both sides are set to NULL
         last_element->rptr = NULL;
-        last_element->data = val;
-        L->First = last_element;
-        L->Last = last_element;
-    }
+        last_element->data = val; // saves the data
+        L->First = last_element; // new element is first
+        L->Last = last_element; // and also the last
+    } // adds to the list
     else{
-        tDLElemPtr previous_element = L->Last;
-        last_element->data = val;
-        L->Last = last_element;
-        last_element->lptr = previous_element;
-        last_element->rptr = NULL;
+        tDLElemPtr previous_element = L->Last; // tmp variable
+        last_element->data = val; // new data is saved
+        L->Last = last_element; // new element is saved as last
+        last_element->lptr = previous_element; // binds the elements
         previous_element->rptr = last_element;
-
+        last_element->rptr = NULL; // right pointer of last is set to NULL
     }
 }
 
@@ -195,7 +195,7 @@ void DLCopyFirst (tDLList *L, int *val) {
     // checks whether list is empty
 	if(L->First == NULL){
         DLError();
-    }   // if not, copy data of the first element
+    } // if not, copy data of the first element
     else{
         *val = L->First->data;
     }
@@ -222,26 +222,26 @@ void DLDeleteFirst (tDLList *L) {
 ** se ztrácí. Pokud byl seznam L prázdný, nic se neděje.
 **/
 	
+    // checks whether list is empty
 	if(L->First == NULL){
         return;
-    }
+    } //if not empty
     else{
-        if(L->First == L->Act){
-            L->Act = NULL;
+        if(L->First == L->Act){ // if first is active
+            L->Act = NULL; // it loses the activity
         }
-        tDLElemPtr first_element = L->First;
-        if(L->Last == L->First){
-            L->Last = NULL;
+        tDLElemPtr first_element = L->First; // tmp variable
+        if(L->Last == L->First){ // if only one element exists
+            L->Last = NULL; // all pointers are set to NULL
             L->First = NULL;
             L->Act = NULL;
-            free(first_element);
+            free(first_element); // memory is freed
         }
-        else{
-            tDLElemPtr second_element = L->First->rptr;
-
-            second_element->lptr = NULL;
-            L->First = second_element;
-            free(first_element);
+        else{ // there are more elements
+            tDLElemPtr second_element = L->First->rptr; // second element is saved
+            second_element->lptr = NULL; // its left poitners is set to NULL
+            L->First = second_element; // and it becomes the new first element
+            free(first_element); // frees the memory of previous first element
         }
     }
 }	
@@ -252,30 +252,28 @@ void DLDeleteLast (tDLList *L) {
 ** aktivita seznamu se ztrácí. Pokud byl seznam L prázdný, nic se neděje.
 **/ 
 	
+    // checks whether list is empty
     if(L->Last == NULL){
         return;
-    }
+    } // if not empty
     else{
-        if(L->Last == L->Act){
-            L->Act = NULL;
+        if(L->Last == L->Act){ // if last is active
+            L->Act = NULL; // it loses the activity
         }
-        
-        tDLElemPtr last_element = L->Last;
-        if(L->Last == L->First){
-            L->Last = NULL;
+        tDLElemPtr last_element = L->Last; // tmp variable
+        if(L->Last == L->First){ //if only one element exists
+            L->Last = NULL; // all pointers are set to NULL
             L->First = NULL;
             L->Act = NULL;
-            free(last_element);
+            free(last_element); // memory is freed
         }
-        else{
-            tDLElemPtr previous_element = L->Last->lptr;
-
-            previous_element->rptr = NULL;
-            L->Last = previous_element;
-            free(last_element);
+        else{ // there are more elements
+            tDLElemPtr previous_element = L->Last->lptr; // second last element is saved
+            previous_element->rptr = NULL; // its right pointer is set to NULL
+            L->Last = previous_element; // and it becomes the new last element
+            free(last_element); // frees the memory of previous last element
         }
     }
-
 }
 
 void DLPostDelete (tDLList *L) {
@@ -285,26 +283,25 @@ void DLPostDelete (tDLList *L) {
 ** posledním prvkem seznamu, nic se neděje.
 **/
 	
+    // checks whether list is empty
     if(L->Act == NULL){
         return;
-    }
+    } // checks whether last element is active
     else if(L->Act == L->Last){
         return;
-    }
+    } // if not empty
     else{
-        tDLElemPtr to_delete = L->Act->rptr;
-
-        if(to_delete == L->Last){
-            L->Act->rptr = NULL;
-            L->Last = L->Act;
-            free(to_delete);
+        tDLElemPtr to_delete = L->Act->rptr; // tmp variable of right element
+        if(to_delete == L->Last){ // if the one to be deleted is last
+            L->Act->rptr = NULL; // right pointer is set to NULL
+            L->Last = L->Act; // last one is now the active one
+            free(to_delete); // frees the memory of last element
         }
-        else{
-            tDLElemPtr next_element = to_delete->rptr;
-
-            L->Act->rptr = next_element;
+        else{ // if the one to be deleted is not the last
+            tDLElemPtr next_element = to_delete->rptr; // tmp variable
+            L->Act->rptr = next_element; // binds the two elements
             next_element->lptr = L->Act;
-            free(to_delete);
+            free(to_delete); // the middle one is freed
         }
     }
 }
@@ -316,27 +313,25 @@ void DLPreDelete (tDLList *L) {
 ** prvním prvkem seznamu, nic se neděje.
 **/
 	
-    
+    // checks whether list is empty
     if(L->Act == NULL){
         return;
-    }
+    } // checks whether first element is active
     else if(L->Act == L->First){
         return;
-    }
+    } // if not empty
     else{
-        tDLElemPtr to_delete = L->Act->lptr;
-        
-        if(to_delete == L->First){
-            L->Act->lptr = NULL;
-            L->First = L->Act;
-            free(to_delete);
+        tDLElemPtr to_delete = L->Act->lptr; // the previous element is saved
+        if(to_delete == L->First){ // if the one to be deleted is the first one
+            L->Act->lptr = NULL; // left pointer is set to NULL
+            L->First = L->Act; // first one becomes the active one
+            free(to_delete); // frees the memory of the first element
         }
-        else{
-            tDLElemPtr previous_element = to_delete->lptr;
-
-            L->Act->lptr = previous_element;
+        else{ // if the one to be deleted is not the first one
+            tDLElemPtr previous_element = to_delete->lptr; // tmp variable
+            L->Act->lptr = previous_element; // binds the two elements
             previous_element->rptr = L->Act;
-            free(to_delete);
+            free(to_delete); // the middle one is freed
         }
     }
 }
@@ -349,29 +344,30 @@ void DLPostInsert (tDLList *L, int val) {
 ** volá funkci DLError().
 **/
 	
+    // checks whether list is empty
     if(L->Act == NULL){
         return;
     }
     else{
+        // allocates new element
         tDLElemPtr to_insert = malloc(sizeof(struct tDLElem));
-        if(to_insert == NULL){
+        if(to_insert == NULL){ // if not allocated, there is error
             DLError();
         }
         else{
-            if(L->Act == L->Last){
-                L->Act->rptr = to_insert;
-                to_insert->lptr = L->Act;
-                L->Last = to_insert;
+            if(L->Act == L->Last){ // active element is also the last
+                L->Act->rptr = to_insert; // insert it after that
+                to_insert->lptr = L->Act; // bind it together
+                L->Last = to_insert; // new element is now the last one
             }
-            else{
-                tDLElemPtr next_element = L->Act->rptr;
-
-                L->Act->rptr = to_insert;
+            else{ // active element is not last
+                tDLElemPtr next_element = L->Act->rptr; // tmp variable
+                L->Act->rptr = to_insert; // binds new and old elements
                 to_insert->lptr = L->Act;
                 to_insert->rptr = next_element;
                 next_element->lptr = to_insert;
             }
-            to_insert->data = val;
+            to_insert->data = val; // saves the new data
         }
     }
 }
@@ -384,29 +380,30 @@ void DLPreInsert (tDLList *L, int val) {
 ** volá funkci DLError().
 **/
 	
+    // checks whether list is empty
     if(L->Act == NULL){
         return;
     }
     else{
+        // allocates new element
         tDLElemPtr to_insert = malloc(sizeof(struct tDLElem));
-        if(to_insert == NULL){
+        if(to_insert == NULL){ // if not allocated, there is error
             DLError();
         }
         else{
-            if(L->Act == L->First){
-                L->Act->lptr = to_insert;
+            if(L->Act == L->First){ // active element is also the first
+                L->Act->lptr = to_insert; // binds the new element
                 to_insert->rptr = L->Act;
-                L->First = to_insert;
+                L->First = to_insert; // inserted one is set to first
             }
-            else{
-                tDLElemPtr previous_element = L->Act->lptr;
-
-                L->Act->lptr = to_insert;
+            else{ // active element is not first
+                tDLElemPtr previous_element = L->Act->lptr; // tmp variable
+                L->Act->lptr = to_insert; // binds new and old elements
                 to_insert->rptr = L->Act;
                 to_insert->lptr = previous_element;
                 previous_element->rptr = to_insert;
             }
-            to_insert->data = val;
+            to_insert->data = val; // saves the new data
         }
     }
 }
