@@ -1,0 +1,208 @@
+DvousmÄrnÄ vĂĄzanĂ˝ lineĂĄrnĂ­ seznam
+=================================
+
+[TEST01]
+Inicializace seznamu
+~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+
+[TEST02]
+ZavolĂĄme 2x operaci DLInsertFirst a 2x operaci DLInsertLast.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	1
+-----------------
+-----------------
+ 	2
+ 	1
+-----------------
+-----------------
+ 	2
+ 	1
+ 	3
+-----------------
+-----------------
+ 	2
+ 	1
+ 	3
+ 	4
+-----------------
+
+[TEST03]
+Otestujeme funkci DLFirst pĹi neaktivnĂ­m seznamu a funkci DLActive.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	2	 <= toto je aktivnĂ­ prvek 
+ 	1
+ 	3
+ 	4
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+
+[TEST04]
+Otestujeme funkci DLLast.
+~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	2
+ 	1
+ 	3
+ 	4	 <= toto je aktivnĂ­ prvek 
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+
+[TEST05]
+Test funkce DLCopy pĹi aktivitÄ na poslednĂ­m prvku
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operace DLCopy vracĂ­ obsah 4.
+
+[TEST06]
+Test funkce DLPred -- volĂĄme 3x, aktivita zĹŻstane na prvnĂ­m prvku.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	2
+ 	1
+ 	3	 <= toto je aktivnĂ­ prvek 
+ 	4
+-----------------
+-----------------
+ 	2
+ 	1	 <= toto je aktivnĂ­ prvek 
+ 	3
+ 	4
+-----------------
+-----------------
+ 	2	 <= toto je aktivnĂ­ prvek 
+ 	1
+ 	3
+ 	4
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+
+[TEST07]
+Aktualizujeme obsah aktivnĂ­ho prvku.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	5	 <= toto je aktivnĂ­ prvek 
+ 	1
+ 	3
+ 	4
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+Operace DLCopy vracĂ­ obsah 5.
+
+[TEST08]
+Test funkce DLSucc -- volĂĄme 3x, aktivita zĹŻstane na poslednĂ­m prvku.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	5
+ 	1	 <= toto je aktivnĂ­ prvek 
+ 	3
+ 	4
+-----------------
+-----------------
+ 	5
+ 	1
+ 	3	 <= toto je aktivnĂ­ prvek 
+ 	4
+-----------------
+-----------------
+ 	5
+ 	1
+ 	3
+ 	4	 <= toto je aktivnĂ­ prvek 
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+
+[TEST09]
+Provedeme jeĹĄtÄ jednou DLSucc - aktivita se ztratĂ­.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	5
+ 	1
+ 	3
+ 	4
+-----------------
+Operace DLActive vracĂ­ hodnotu false.
+
+[TEST10]
+NastavĂ­me aktivitu na zaÄĂĄtek a pak ji zruĹĄĂ­me operacĂ­ DLPred.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	5	 <= toto je aktivnĂ­ prvek 
+ 	1
+ 	3
+ 	4
+-----------------
+-----------------
+ 	5
+ 	1
+ 	3
+ 	4
+-----------------
+Operace DLActive vracĂ­ hodnotu false.
+
+[TEST11]
+Pokus o DLCopy pĹi neaktivnĂ­m seznamu => oĹĄetĹenĂĄ chyba.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*ERROR* The program has performed an illegal operation.
+Operace DLCopy volala funkci DLError.
+
+[TEST12]
+PouĹžitĂ­ operace DLCopyFirst pĹi neaktivnĂ­m seznamu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operace DLCopyFirst vracĂ­ obsah 5.
+
+[TEST13]
+PouĹžitĂ­ operace DLCopyLast pĹi neaktivnĂ­m seznamu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operace DLCopyLast vracĂ­ obsah 4.
+
+[TEST14]
+PouĹžitĂ­ operace DLDeleteFirst pĹi neaktivnĂ­m seznamu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	1
+ 	3
+ 	4
+-----------------
+Operace DLActive vracĂ­ hodnotu false.
+
+[TEST15]
+PouĹžitĂ­ operace DLDeleteLast pĹi neaktivnĂ­m seznamu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	1
+ 	3
+-----------------
+Operace DLActive vracĂ­ hodnotu false.
+
+[TEST16]
+ZkusĂ­me DLPostDelete pĹi aktivitÄ na poslednĂ­m prvku.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	1
+ 	3	 <= toto je aktivnĂ­ prvek 
+-----------------
+-----------------
+ 	1
+ 	3	 <= toto je aktivnĂ­ prvek 
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+
+[TEST17]
+Operace DLPreDelete nynĂ­ smaĹže prvnĂ­ prvek.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+ 	3	 <= toto je aktivnĂ­ prvek 
+-----------------
+Operace DLActive vracĂ­ hodnotu true.
+
+[TEST18]
+Seznam nakonec zruĹĄĂ­me.
+~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+Operace DLActive vracĂ­ hodnotu false.
+
+----------------------- konec pĹĂ­kladu c206 -------------------------

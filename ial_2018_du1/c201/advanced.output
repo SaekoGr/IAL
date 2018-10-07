@@ -1,0 +1,324 @@
+Jednosmďż˝rnďż˝ vďż˝zanďż˝ lineďż˝rnďż˝ seznam
+==================================
+
+[TEST01]
+Inicializace seznamu
+~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+
+[TEST02]
+Pokus o volďż˝nďż˝ CopyFirst nad prďż˝zdnďż˝m seznamem => chyba
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*ERROR* The program has performed an illegal operation.
+Operace CopyFirst volala funkci Error.
+
+[TEST03]
+Zavolďż˝me 4x operaci InsertFirst.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 1
+-----------------
+-----------------
+	 2
+	 1
+-----------------
+-----------------
+	 3
+	 2
+	 1
+-----------------
+-----------------
+	 4
+	 3
+	 2
+	 1
+-----------------
+
+[TEST04]
+Seznam je neaktivnďż˝ -- ovďż˝ďż˝ďż˝me si to volďż˝nďż˝m funce Active.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operace Active vracďż˝ 0.
+
+[TEST05]
+Otestujeme funkci First pďż˝i neaktivnďż˝m seznamu a funkci Active.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4	 <= toto je aktivnďż˝ prvek 
+	 3
+	 2
+	 1
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST06]
+Test funkce Copy pďż˝i aktivitďż˝ na prvnďż˝m prvku
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operace Copy vracďż˝ obsah 4.
+
+[TEST07]
+Test funkce Succ -- volďż˝me 3x, aktivita bude na poslednďż˝m prvku.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4
+	 3	 <= toto je aktivnďż˝ prvek 
+	 2
+	 1
+-----------------
+-----------------
+	 4
+	 3
+	 2	 <= toto je aktivnďż˝ prvek 
+	 1
+-----------------
+-----------------
+	 4
+	 3
+	 2
+	 1	 <= toto je aktivnďż˝ prvek 
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST08]
+Aktualizujeme obsah aktivnďż˝ho prvku.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4
+	 3
+	 2
+	 10	 <= toto je aktivnďż˝ prvek 
+-----------------
+Operace Active vracďż˝ 1.
+Operace Copy vracďż˝ obsah 10.
+
+[TEST09]
+Provedeme jeďż˝tďż˝ jednou Succ -- aktivita se ztratďż˝.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4
+	 3
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 0.
+
+[TEST10]
+Pokusďż˝me se o aktualizaci pďż˝i neaktivnďż˝m seznamu => nic
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4
+	 3
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 0.
+
+[TEST11]
+Pokus o Copy pďż˝i neaktivnďż˝m seznamu => oďż˝etďż˝enďż˝ chyba
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*ERROR* The program has performed an illegal operation.
+Operace Copy volala funkci Error.
+
+[TEST12]
+Operace Succ pďż˝i neaktivnďż˝m seznamu nesmďż˝ zhavarovat.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4
+	 3
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 0.
+
+[TEST13]
+Pouďż˝itďż˝ operace CopyFirst pďż˝i neaktivnďż˝m seznamu
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Operace CopyFirst vracďż˝ obsah 4.
+
+[TEST14]
+Vyzkouďż˝ďż˝me operaci DeleteFirst pďż˝i neaktivnďż˝m seznamu,
+pďż˝iďż˝emďż˝ smazanďż˝ prvek zase vrďż˝tďż˝me zpďż˝tky do seznamu.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 3
+	 2
+	 10
+-----------------
+-----------------
+	 4
+	 3
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 0.
+
+[TEST10]
+Operace First nastavďż˝ aktivitu na prvnďż˝ prvek.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 4	 <= toto je aktivnďż˝ prvek 
+	 3
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST11]
+DeleteFirst aktivnďż˝ho prvku povede ke ztrďż˝tďż˝ aktivity.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 3
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 0.
+
+[TEST12]
+Uďż˝itďż˝m operacďż˝ First a Succ nastavďż˝me aktivitu na konec seznamu.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 3	 <= toto je aktivnďż˝ prvek 
+	 2
+	 10
+-----------------
+-----------------
+	 3
+	 2	 <= toto je aktivnďż˝ prvek 
+	 10
+-----------------
+-----------------
+	 3
+	 2
+	 10	 <= toto je aktivnďż˝ prvek 
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST13]
+Operace PostDelete pďż˝i aktivitďż˝ na poslednďż˝m prvku nedďż˝lďż˝ nic.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 3
+	 2
+	 10	 <= toto je aktivnďż˝ prvek 
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST14]
+Nastavďż˝me aktivitu na zaďż˝ďż˝tek a dvakrďż˝t zavolďż˝me PostDelete.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 3	 <= toto je aktivnďż˝ prvek 
+	 2
+	 10
+-----------------
+Operace Active vracďż˝ 1.
+-----------------
+	 3	 <= toto je aktivnďż˝ prvek 
+	 10
+-----------------
+-----------------
+	 3	 <= toto je aktivnďż˝ prvek 
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST15]
+Otestujeme InsertFirst pďż˝i seznamu s jedinďż˝m prvkem, nastavďż˝me
+aktivitu na novďż˝ vloďż˝enďż˝ prvek a opďż˝t posuneme aktivitu na konec
+seznamu.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 101
+	 3	 <= toto je aktivnďż˝ prvek 
+-----------------
+-----------------
+	 101	 <= toto je aktivnďż˝ prvek 
+	 3
+-----------------
+-----------------
+	 101
+	 3	 <= toto je aktivnďż˝ prvek 
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST16]
+Operacďż˝ PostInsert vloďż˝ďż˝me novďż˝ prvek za poslednďż˝ prvek seznamu.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 101
+	 3	 <= toto je aktivnďż˝ prvek 
+	 102
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST17]
+Nastavďż˝me aktivitu na prvnďż˝ prvek seznamu a vyzkouďż˝ďż˝me PostInsert.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+	 101	 <= toto je aktivnďż˝ prvek 
+	 3
+	 102
+-----------------
+-----------------
+	 101	 <= toto je aktivnďż˝ prvek 
+	 103
+	 3
+	 102
+-----------------
+Operace Active vracďż˝ 1.
+
+[TEST18]
+Otestujeme funkďż˝nost operace DisposeList.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+
+[TEST24]
+
+Nďż˝sleduje testovďż˝nďż˝ operacďż˝ pďż˝i prďż˝zdnďż˝m seznamu
+================================================
+Operace Active vracďż˝ 0.
+
+[TEST25]
+DeleteFirst pďż˝i prďż˝zdnďż˝m seznamu => nic
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+
+[TEST26]
+Test PostDelete pďż˝i prďż˝zdnďż˝m seznamu => nic 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+-----------------
+-----------------
+
+[TEST27]
+Jeďż˝tďż˝ jednou DisposeList => ďż˝ďż˝dnďż˝ zmďż˝na
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+
+[TEST28]
+First ani PostInsert nad prďż˝zdnďż˝m seznamem nic nedďż˝lďż˝.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+-----------------
+-----------------
+
+[TEST29]
+Copy a CopyFirst nad prďż˝zdnďż˝m seznamem => oďż˝etďż˝enďż˝ chyba
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*ERROR* The program has performed an illegal operation.
+Operace Copy volala funkci Error.
+*ERROR* The program has performed an illegal operation.
+Operace CopyFirst volala funkci Error.
+
+[TEST30]
+Actualize ani Succ by nemďż˝ly mďż˝t nad prďż˝zdnďż˝m seznamem ďż˝ďż˝dny efekt.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------
+-----------------
+-----------------
+-----------------
+Operace Active vracďż˝ 0.
+
+----------------------- konec pďż˝ďż˝kladu c201 -------------------------
