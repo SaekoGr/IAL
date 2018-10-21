@@ -66,8 +66,11 @@ int hashCode ( tKey key ) {
 */
 
 void htInit ( tHTable* ptrht ) {
+	
+	for(int i = 0; i < HTSIZE; i++){
+		(*ptrht)[i] = NULL;
+	}
 
- solved = 0; /*v pripade reseni, smazte tento radek!*/
 }
 
 /* TRP s explicitně zřetězenými synonymy.
@@ -79,7 +82,22 @@ void htInit ( tHTable* ptrht ) {
 
 tHTItem* htSearch ( tHTable* ptrht, tKey key ) {
 
- solved = 0; /*v pripade reseni, smazte tento radek!*/
+	int index_position = hashCode(key); // calculate the hashCode
+	if((*ptrht)[index_position] == NULL){ // there is no element on this index position
+		return NULL;	// therefore, search was unsuccesful
+	}
+	else{
+		tHTItem* item = (*ptrht)[index_position]; // element at current position
+
+		while(item != NULL){ // look throught all the synonyms
+			if(strcmp(key, item->key) == 0)	// check if key equals
+				return item; // return it if yes
+			else	// move throught the synonyms if no
+				item = item->ptrnext;
+		}
+		return NULL;	// search is done without any results
+	}
+
 }
 
 /* 
@@ -96,7 +114,34 @@ tHTItem* htSearch ( tHTable* ptrht, tKey key ) {
 
 void htInsert ( tHTable* ptrht, tKey key, tData data ) {
 
- solved = 0; /*v pripade reseni, smazte tento radek!*/
+	tHTItem* new_item = htSearch(ptrht, key);
+	tHTItem* old_item;
+	tHTItem* tmp_item;
+
+	if(new_item == NULL){ // not found, has to add it
+		int index_position = hashCode(key);
+
+		if((*ptrht)[index_position] == NULL){ // position is available
+			(*ptrht)[index_position] = malloc(sizeof(tHTable));
+			(*ptrht)[index_position]->data = data;
+			(*ptrht)[index_position]->key = key;
+			(*ptrht)[index_position]->ptrnext = NULL;
+		}
+		else{	// position is already taken, has to add to it
+			tmp_item = malloc(sizeof(tHTable));
+			tmp_item->data = data;
+			tmp_item->key = key;
+
+			old_item = (*ptrht)[index_position];
+			tmp_item->ptrnext = old_item;
+			(*ptrht)[index_position] = tmp_item;
+			
+		}
+
+	}
+	else{
+		new_item->data = data; // actualize data
+	}
 }
 
 /*
@@ -110,7 +155,15 @@ void htInsert ( tHTable* ptrht, tKey key, tData data ) {
 
 tData* htRead ( tHTable* ptrht, tKey key ) {
 
- solved = 0; /*v pripade reseni, smazte tento radek!*/
+	tHTItem* to_read = htSearch(ptrht, key);
+
+	if(to_read == NULL){ // not found
+		return NULL;
+	}
+	else{	// found
+		return &(to_read->data);
+	}
+
 }
 
 /*
@@ -134,6 +187,23 @@ void htDelete ( tHTable* ptrht, tKey key ) {
 */
 
 void htClearAll ( tHTable* ptrht ) {
+	
+	/**
+	tHTItem* item = NULL;
 
- solved = 0; /*v pripade reseni, smazte tento radek!*/
+	for(int i = 0; i < MAX_HTSIZE; ++i){
+		if((*ptrht)[i] == NULL)
+			continue;
+		else{
+			while((*ptrht)[i] != NULL){
+				item = (*ptrht)[i];
+				(*ptrht)[i] = (*ptrht)[i]->ptrnext;
+
+				free(item->key);
+				free(item);
+			}
+		}
+	}
+	*/
+	
 }
