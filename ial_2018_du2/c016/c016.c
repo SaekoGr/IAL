@@ -66,9 +66,14 @@ int hashCode ( tKey key ) {
 */
 
 void htInit ( tHTable* ptrht ) {
-	
-	for(int i = 0; i < MAX_HTSIZE; i++){
-		(*ptrht)[i] = NULL;
+
+	if((*ptrht) == NULL){ // check whether table is initialized or not
+		return;
+	}
+	else{ // sets NULL to each element
+		for(int i = 0; i < MAX_HTSIZE; i++){
+			(*ptrht)[i] = NULL;
+		}
 	}
 
 }
@@ -81,6 +86,10 @@ void htInit ( tHTable* ptrht ) {
 */
 
 tHTItem* htSearch ( tHTable* ptrht, tKey key ) {
+
+	if((*ptrht) == NULL){ // check whether table is initialized or not
+		return NULL;
+	}
 
 	int index_position = hashCode(key); // calculate the hashCode
 	if((*ptrht)[index_position] == NULL){ // there is no element on this index position
@@ -97,7 +106,6 @@ tHTItem* htSearch ( tHTable* ptrht, tKey key ) {
 		}
 		return NULL;	// search is done without any results
 	}
-
 }
 
 /* 
@@ -114,7 +122,11 @@ tHTItem* htSearch ( tHTable* ptrht, tKey key ) {
 
 void htInsert ( tHTable* ptrht, tKey key, tData data ) {
 
-	tHTItem* new_item = htSearch(ptrht, key);
+	if((*ptrht) == NULL){ // check whether table is initialized or not
+		return;
+	}
+
+	tHTItem* new_item = htSearch(ptrht, key); // key exists in the table
 	tHTItem* old_item;
 	tHTItem* tmp_item;
 
@@ -122,25 +134,25 @@ void htInsert ( tHTable* ptrht, tKey key, tData data ) {
 		int index_position = hashCode(key);
 
 		if((*ptrht)[index_position] == NULL){ // position is available
-			(*ptrht)[index_position] = malloc(sizeof(tHTable));
-			(*ptrht)[index_position]->data = data;
-			(*ptrht)[index_position]->key = key;
-			(*ptrht)[index_position]->ptrnext = NULL;
+			(*ptrht)[index_position] = malloc(sizeof(tHTable)); // allocate new
+			(*ptrht)[index_position]->data = data;	// saves data
+			(*ptrht)[index_position]->key = key;	// saves key
+			(*ptrht)[index_position]->ptrnext = NULL;	// next element doesn't exist
 		}
 		else{	// position is already taken, has to add to it
-			tmp_item = malloc(sizeof(tHTable));
-			tmp_item->data = data;
-			tmp_item->key = key;
+			tmp_item = malloc(sizeof(tHTable)); // allocate new
+			tmp_item->data = data; // saves data
+			tmp_item->key = key;	// saves key
 
-			old_item = (*ptrht)[index_position];
-			tmp_item->ptrnext = old_item;
-			(*ptrht)[index_position] = tmp_item;
+			old_item = (*ptrht)[index_position]; // save current first synonym 
+			tmp_item->ptrnext = old_item; // new synonym now points to it
+			(*ptrht)[index_position] = tmp_item; // new item is saved at first position
 			
 		}
 
 	}
 	else{
-		new_item->data = data; // actualize data
+		new_item->data = data; // actualize data if the key already there
 	}
 }
 
@@ -155,7 +167,11 @@ void htInsert ( tHTable* ptrht, tKey key, tData data ) {
 
 tData* htRead ( tHTable* ptrht, tKey key ) {
 
-	tHTItem* to_read = htSearch(ptrht, key);
+	if((*ptrht) == NULL){ // check whether table is initialized or not
+		return NULL;
+	}
+
+	tHTItem* to_read = htSearch(ptrht, key); // search it
 
 	if(to_read == NULL){ // not found
 		return NULL;
@@ -178,47 +194,48 @@ tData* htRead ( tHTable* ptrht, tKey key ) {
 
 void htDelete ( tHTable* ptrht, tKey key ) {
 
-	int key_result = hashCode(key);
-	tHTItem* to_find = (*ptrht)[key_result];
+	if((*ptrht) == NULL){ // check whether table is initialized or not
+		return;
+	}
+
+	int key_result = hashCode(key); // result from key
+	tHTItem* to_find = (*ptrht)[key_result]; // everything is set to the first synonym
 	tHTItem* first_element = (*ptrht)[key_result];
 	tHTItem* previous_element = (*ptrht)[key_result];
 
 	
-	if((*ptrht)[key_result] == NULL){
+	if((*ptrht)[key_result] == NULL){ // this key is not in the table, return
 		return;
 	}
-	else{
-		while(to_find != NULL){
-			previous_element = to_find;
+	else{ // key is in the table, look for it
+		while(to_find != NULL){ // move throught the synonyms until the end
 			if(to_find->key == key){ // key equals, has to adjust the list now
-				if(previous_element->ptrnext == to_find && to_find->ptrnext == NULL){ // last element
+				if(previous_element->ptrnext == to_find && to_find->ptrnext == NULL){ // it is last element
 					previous_element->ptrnext = NULL;
 					free(to_find);
 				}
-				else if(first_element == to_find){
-					if(to_find->ptrnext != NULL){
+				else if(first_element == to_find){ // it is first element
+					if(to_find->ptrnext != NULL){ // it is not followed by synonym
 						(*ptrht)[key_result] = to_find->ptrnext;
 						free(to_find);
 					}
-					else{
+					else{	// it is followed by synonym
 						(*ptrht)[key_result] = NULL;
 						free(to_find);
 					}
 				}
-				else{
+				else{ // it is in the middle of synonyms
 					previous_element->ptrnext = to_find->ptrnext;
 					free(to_find);
 				}
-
-				
-				break;
+				break; // when found and freed, break from the cycle
 			}
-			to_find = to_find->ptrnext;
+			previous_element = to_find; // previous element is set
+			to_find = to_find->ptrnext; // move to the next element
 			
 		}
 		
 	}
-
 }
 
 /* TRP s explicitně zřetězenými synonymy.
@@ -227,73 +244,24 @@ void htDelete ( tHTable* ptrht, tKey key ) {
 */
 
 void htClearAll ( tHTable* ptrht ) {
-	
+
+	if((*ptrht) == NULL){ // check whether table is initialized or not
+		return;
+	}
+
 	tHTItem* item = NULL;
-	tHTItem* tmp = NULL;
 
-	for(int i = 0; i < MAX_HTSIZE; i++){
-		//tHTItem* item = (*ptrht)[i];
-		if((*ptrht)[i] == NULL){
+	for(int i = 0; i < MAX_HTSIZE; i++){ // go throught all the elements
+		if((*ptrht)[i] == NULL){ // it is is already NULL, continue
 			continue;
 		}
-		else{
-			while((*ptrht)[i] != NULL){
-				item = (*ptrht)[i];
-
-				(*ptrht)[i] = (*ptrht)[i]->ptrnext;
-
-				free(item);
-				item = NULL;
+		else{	// it is isn't NULL, we have to free all the items
+			while((*ptrht)[i] != NULL){ // continue until it is NULL
+				item = (*ptrht)[i]; // save it
+				(*ptrht)[i] = (*ptrht)[i]->ptrnext; // move to the next item to first place
+				free(item); // free memory of first synonym in line
 			}
-			(*ptrht)[i] = NULL;
 		}
 	}
 	
-	/*
-	if((*ptrht)[i] == NULL)
-			continue;
-		else{
-			while((*ptrht)[i] != NULL){
-				item = (*ptrht)[i];
-				(*ptrht)[i] = (*ptrht)[i]->ptrnext;
-
-				free(item->key);
-				free(item);
-			}
-		}
-	*/
 }
-
-/*
-void htInsert ( tHTable* ptrht, tKey key, tData data ) {
-
-	tHTItem* new_item = htSearch(ptrht, key);
-	tHTItem* tmp_item = NULL;
-
-	if(new_item == NULL){
-		int index = hashCode(key);
-		if((*ptrht)[index] == NULL){
-			tmp_item = malloc(sizeof(tHTable));
-			tmp_item->data = data;
-
-			tmp_item->key = malloc(strlen(key)+1);
-			memcpy(tmp_item->key, key, strlen(key)+1);
-
-			tmp_item->ptrnext = NULL;
-			(*ptrht)[index] = tmp_item;
-		}
-		else{
-			tmp_item = malloc(sizeof(tHTable));
-			tmp_item->data = data;
-
-			tmp_item->key = malloc(strlen(key)+1);
-			memcpy(tmp_item->key, key, strlen(key)+1);
-
-			tmp_item->ptrnext = (*ptrht)[index];
-			(*ptrht)[index] = tmp_item;
-		}
-	}
-	else{
-		new_item->data = data;
-	}
-}*/
