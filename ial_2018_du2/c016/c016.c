@@ -67,7 +67,7 @@ int hashCode ( tKey key ) {
 
 void htInit ( tHTable* ptrht ) {
 	
-	for(int i = 0; i < HTSIZE; i++){
+	for(int i = 0; i < MAX_HTSIZE; i++){
 		(*ptrht)[i] = NULL;
 	}
 
@@ -178,7 +178,47 @@ tData* htRead ( tHTable* ptrht, tKey key ) {
 
 void htDelete ( tHTable* ptrht, tKey key ) {
 
- solved = 0; /*v pripade reseni, smazte tento radek!*/
+	int key_result = hashCode(key);
+	tHTItem* to_find = (*ptrht)[key_result];
+	tHTItem* first_element = (*ptrht)[key_result];
+	tHTItem* previous_element = (*ptrht)[key_result];
+
+	
+	if((*ptrht)[key_result] == NULL){
+		return;
+	}
+	else{
+		while(to_find != NULL){
+			previous_element = to_find;
+			if(to_find->key == key){ // key equals, has to adjust the list now
+				if(previous_element->ptrnext == to_find && to_find->ptrnext == NULL){ // last element
+					previous_element->ptrnext = NULL;
+					free(to_find);
+				}
+				else if(first_element == to_find){
+					if(to_find->ptrnext != NULL){
+						(*ptrht)[key_result] = to_find->ptrnext;
+						free(to_find);
+					}
+					else{
+						(*ptrht)[key_result] = NULL;
+						free(to_find);
+					}
+				}
+				else{
+					previous_element->ptrnext = to_find->ptrnext;
+					free(to_find);
+				}
+
+				
+				break;
+			}
+			to_find = to_find->ptrnext;
+			
+		}
+		
+	}
+
 }
 
 /* TRP s explicitně zřetězenými synonymy.
@@ -188,11 +228,29 @@ void htDelete ( tHTable* ptrht, tKey key ) {
 
 void htClearAll ( tHTable* ptrht ) {
 	
-	/**
 	tHTItem* item = NULL;
+	tHTItem* tmp = NULL;
 
-	for(int i = 0; i < MAX_HTSIZE; ++i){
-		if((*ptrht)[i] == NULL)
+	for(int i = 0; i < MAX_HTSIZE; i++){
+		//tHTItem* item = (*ptrht)[i];
+		if((*ptrht)[i] == NULL){
+			continue;
+		}
+		else{
+			while((*ptrht)[i] != NULL){
+				item = (*ptrht)[i];
+
+				(*ptrht)[i] = (*ptrht)[i]->ptrnext;
+
+				free(item);
+				item = NULL;
+			}
+			(*ptrht)[i] = NULL;
+		}
+	}
+	
+	/*
+	if((*ptrht)[i] == NULL)
 			continue;
 		else{
 			while((*ptrht)[i] != NULL){
@@ -203,7 +261,39 @@ void htClearAll ( tHTable* ptrht ) {
 				free(item);
 			}
 		}
-	}
 	*/
-	
 }
+
+/*
+void htInsert ( tHTable* ptrht, tKey key, tData data ) {
+
+	tHTItem* new_item = htSearch(ptrht, key);
+	tHTItem* tmp_item = NULL;
+
+	if(new_item == NULL){
+		int index = hashCode(key);
+		if((*ptrht)[index] == NULL){
+			tmp_item = malloc(sizeof(tHTable));
+			tmp_item->data = data;
+
+			tmp_item->key = malloc(strlen(key)+1);
+			memcpy(tmp_item->key, key, strlen(key)+1);
+
+			tmp_item->ptrnext = NULL;
+			(*ptrht)[index] = tmp_item;
+		}
+		else{
+			tmp_item = malloc(sizeof(tHTable));
+			tmp_item->data = data;
+
+			tmp_item->key = malloc(strlen(key)+1);
+			memcpy(tmp_item->key, key, strlen(key)+1);
+
+			tmp_item->ptrnext = (*ptrht)[index];
+			(*ptrht)[index] = tmp_item;
+		}
+	}
+	else{
+		new_item->data = data;
+	}
+}*/
