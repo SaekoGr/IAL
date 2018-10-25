@@ -12,7 +12,7 @@ typů, se kterými se pracuje v příslušných úlohách. Nemodifikovat! */
     Upravil: Bohuslav Křena, listopad 2009                           
              Karel Masařík, říjen 2013                               
              Radek Hranický 2014-2018 
-/* ***************************************************************** */
+  ***************************************************************** */
 
 #include<stdio.h>
 #include<stdlib.h>
