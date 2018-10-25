@@ -260,9 +260,20 @@ void BTPreorder (tBTNodePtr RootPtr)	{
 ** realizujte jako volání funkce BTWorkOut(). 
 **/
 
+	if(RootPtr == NULL){
+		return;
+	}
+	else{
+		tStackP stack;
+		SInitP(&stack);
+		Leftmost_Preorder(RootPtr, &stack);
+		while(!SEmptyP(&stack)){
+			RootPtr = STopPopP(&stack);
+			Leftmost_Preorder(RootPtr->RPtr, &stack);
+		}
+	}
 	
-	
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	// solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
 }
 
 
@@ -279,10 +290,7 @@ void Leftmost_Inorder(tBTNodePtr ptr, tStackP *Stack)		{
 	while(ptr!= NULL){
 		SPushP(Stack, ptr);
 		ptr = ptr->LPtr;
-	}
-
-	
-	// solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	}	
 	
 }
 
@@ -293,9 +301,22 @@ void BTInorder (tBTNodePtr RootPtr)	{
 ** realizujte jako volání funkce BTWorkOut(). 
 **/
 
-	
-	
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	if(RootPtr == NULL){
+		return;
+	}
+	else{
+		tStackP stack;
+		SInitP(&stack);
+		Leftmost_Inorder(RootPtr, &stack);
+		while(!SEmptyP(&stack)){
+			RootPtr = STopPopP(&stack);
+			BTWorkOut(RootPtr);
+			if(RootPtr->RPtr != NULL){
+				Leftmost_Inorder(RootPtr->RPtr, &stack);
+			}
+		}
+	}
+		
 }
 
 /*                                 POSTORDER                                  */ 
@@ -314,8 +335,7 @@ void Leftmost_Postorder (tBTNodePtr ptr, tStackP *StackP, tStackB *StackB) {
 		SPushB(StackB, true);
 		ptr = ptr->LPtr;
 	}
-	
-	// solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+		
 }
 
 void BTPostorder (tBTNodePtr RootPtr)	{
@@ -325,9 +345,35 @@ void BTPostorder (tBTNodePtr RootPtr)	{
 ** Zpracování jednoho uzlu stromu realizujte jako volání funkce BTWorkOut(). 
 **/
 
+
+	if(RootPtr == NULL){
+		return;
+	}
+	else{
+		bool left;
+		tStackP stack;
+		tStackB booleans;
+
+		SInitP(&stack);
+		SInitB(&booleans);
+		Leftmost_Postorder(RootPtr,&stack, &booleans);
+		while(!SEmptyP(&stack)){
+			RootPtr = STopPopP(&stack);
+			SPushP(&stack, RootPtr);
+			left = STopPopB(&booleans);
+			if(left == true){
+				SPushB(&booleans, false);
+				Leftmost_Postorder(RootPtr->RPtr, &stack, &booleans);
+			}
+			else{
+				STopPopP(&stack);
+				BTWorkOut(RootPtr);
+			}
+
+		}
+	}
 	
 		
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
 }
 
 
@@ -363,7 +409,6 @@ void BTDisposeTree (tBTNodePtr *RootPtr)	{
 		} while((*RootPtr) != NULL || (!SEmptyP(&stack)));
 	}
 	
-	//	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
 }
 
 /* konec c402.c */

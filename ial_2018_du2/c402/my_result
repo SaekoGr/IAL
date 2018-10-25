@@ -21,15 +21,12 @@ Provedeme pruchod Pre-order, In-order a Post-order na prazdny strom
 Vypis Preorder:
 ===============
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Postorder:
 ================
 
-Operace BTPostorder() nebyla implementovana 
 Vypis Inorder:
 ==============
 
-Operace BTInorder() nebyla implementovana 
 [TEST04]
 Vlozime prvek s hodnotou 8
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -43,16 +40,16 @@ Provedeme pruchod Pre-order, In-order a Post-order na prazdny strom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Vypis Preorder:
 ===============
+Výpis hodnoty daného uzlu> 8
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Postorder:
 ================
+Výpis hodnoty daného uzlu> 8
 
-Operace BTPostorder() nebyla implementovana 
 Vypis Inorder:
 ==============
+Výpis hodnoty daného uzlu> 8
 
-Operace BTInorder() nebyla implementovana 
 [TEST06]
 Zkusime zrusit strom
 ~~~~~~~~~~~~~~~~~~~~
@@ -88,16 +85,22 @@ Provedeme pruchod Pre-order, In-order a Post-order na prazdny strom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Vypis Preorder:
 ===============
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 12
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Postorder:
 ================
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 8
 
-Operace BTPostorder() nebyla implementovana 
 Vypis Inorder:
 ==============
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 12
 
-Operace BTInorder() nebyla implementovana 
 [TEST10]
 Pokus o opetovne vlozeni prvku 8 (nesmi dojit ke zmene stromu) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -127,16 +130,22 @@ Provedeme pruchod Pre-order, In-order a Post-order
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 Vypis Preorder:
 ===============
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 12
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Inorder:
 ==============
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 12
 
-Operace BTInorder() nebyla implementovana 
 Vypis Postorder:
 ================
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 8
 
-Operace BTPostorder() nebyla implementovana 
 [TEST13]
 Vlozeni dalsich prvku ve vhodnem poradi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,16 +199,58 @@ Provedeme pruchod Pre-order, In-order a Post-order
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 Vypis Preorder:
 ===============
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 2
+Výpis hodnoty daného uzlu> 1
+Výpis hodnoty daného uzlu> 3
+Výpis hodnoty daného uzlu> 6
+Výpis hodnoty daného uzlu> 5
+Výpis hodnoty daného uzlu> 7
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 10
+Výpis hodnoty daného uzlu> 9
+Výpis hodnoty daného uzlu> 11
+Výpis hodnoty daného uzlu> 14
+Výpis hodnoty daného uzlu> 13
+Výpis hodnoty daného uzlu> 15
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Inorder:
 ==============
+Výpis hodnoty daného uzlu> 1
+Výpis hodnoty daného uzlu> 2
+Výpis hodnoty daného uzlu> 3
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 5
+Výpis hodnoty daného uzlu> 6
+Výpis hodnoty daného uzlu> 7
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 9
+Výpis hodnoty daného uzlu> 10
+Výpis hodnoty daného uzlu> 11
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 13
+Výpis hodnoty daného uzlu> 14
+Výpis hodnoty daného uzlu> 15
 
-Operace BTInorder() nebyla implementovana 
 Vypis Postorder:
 ================
+Výpis hodnoty daného uzlu> 1
+Výpis hodnoty daného uzlu> 3
+Výpis hodnoty daného uzlu> 2
+Výpis hodnoty daného uzlu> 5
+Výpis hodnoty daného uzlu> 7
+Výpis hodnoty daného uzlu> 6
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 9
+Výpis hodnoty daného uzlu> 11
+Výpis hodnoty daného uzlu> 10
+Výpis hodnoty daného uzlu> 13
+Výpis hodnoty daného uzlu> 15
+Výpis hodnoty daného uzlu> 14
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 8
 
-Operace BTPostorder() nebyla implementovana 
 [TEST15]
 Zrusime cely strom
 ~~~~~~~~~~~~~~~~~~
@@ -214,15 +265,12 @@ Provedeme pruchod Pre-order, In-order a Post-order
 Vypis Preorder:
 ===============
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Inorder:
 ==============
 
-Operace BTInorder() nebyla implementovana 
 Vypis Postorder:
 ================
 
-Operace BTPostorder() nebyla implementovana 
 [TEST17]
 Nyni si vytvorime jiny strom.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -279,16 +327,58 @@ Provedeme pruchod Pre-order, In-order a Post-order
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 Vypis Preorder:
 ===============
+Výpis hodnoty daného uzlu> 10
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 1
+Výpis hodnoty daného uzlu> 2
+Výpis hodnoty daného uzlu> 3
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 5
+Výpis hodnoty daného uzlu> 6
+Výpis hodnoty daného uzlu> 7
+Výpis hodnoty daného uzlu> 9
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 11
+Výpis hodnoty daného uzlu> 14
+Výpis hodnoty daného uzlu> 13
+Výpis hodnoty daného uzlu> 15
 
-Operace BTPreorder() nebyla implementovana 
 Vypis Inorder:
 ==============
+Výpis hodnoty daného uzlu> 1
+Výpis hodnoty daného uzlu> 2
+Výpis hodnoty daného uzlu> 3
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 5
+Výpis hodnoty daného uzlu> 6
+Výpis hodnoty daného uzlu> 7
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 9
+Výpis hodnoty daného uzlu> 10
+Výpis hodnoty daného uzlu> 11
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 13
+Výpis hodnoty daného uzlu> 14
+Výpis hodnoty daného uzlu> 15
 
-Operace BTInorder() nebyla implementovana 
 Vypis Postorder:
 ================
+Výpis hodnoty daného uzlu> 7
+Výpis hodnoty daného uzlu> 6
+Výpis hodnoty daného uzlu> 5
+Výpis hodnoty daného uzlu> 4
+Výpis hodnoty daného uzlu> 3
+Výpis hodnoty daného uzlu> 2
+Výpis hodnoty daného uzlu> 1
+Výpis hodnoty daného uzlu> 9
+Výpis hodnoty daného uzlu> 8
+Výpis hodnoty daného uzlu> 11
+Výpis hodnoty daného uzlu> 13
+Výpis hodnoty daného uzlu> 15
+Výpis hodnoty daného uzlu> 14
+Výpis hodnoty daného uzlu> 12
+Výpis hodnoty daného uzlu> 10
 
-Operace BTPostorder() nebyla implementovana 
 [TEST19]
 Pokus o opetovne vlozeni prvku 9 (nesmi dojit ke zmene stromu) 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
