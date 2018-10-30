@@ -181,7 +181,7 @@ void BTInit (tBTNodePtr *RootPtr)	{
 **/
 	
 	
-	(*RootPtr) = NULL;		  /* V případě řešení smažte tento řádek! */	
+	(*RootPtr) = NULL; // initialize the tree	
 }
 
 void BTInsert (tBTNodePtr *RootPtr, int Content) {
@@ -194,40 +194,40 @@ void BTInsert (tBTNodePtr *RootPtr, int Content) {
 ** se ve stromu může vyskytnout nejvýše jednou). Pokud se vytváří nový uzel,
 ** vzniká vždy jako list stromu. Funkci implementujte nerekurzivně.
 **/
-	//tBTNodePtr to_add = NULL;
+
 	tBTNodePtr tmp = *RootPtr;
 	tBTNodePtr previous;
 
 	if((*RootPtr) == NULL){ // adding first element 
 		(*RootPtr) = malloc(sizeof(struct tBTNode));
 		(*RootPtr)->Cont = Content;
-		(*RootPtr)->LPtr = NULL;
+		(*RootPtr)->LPtr = NULL; // set pointers to NULL
 		(*RootPtr)->RPtr = NULL;
 	}
 	else{
-		while(tmp != NULL){
+		while(tmp != NULL){ // search for place where we can add 
 			previous = tmp;
-			if(tmp->Cont > Content){
+			if(tmp->Cont > Content){ // go to left side
 				tmp = tmp->LPtr;
 			}
-			else if(tmp->Cont < Content){
+			else if(tmp->Cont < Content){ // go to right side
 				tmp = tmp->RPtr;
 			}
-			else if(tmp->Cont == Content){
+			else if(tmp->Cont == Content){ // we found it, so return
 				return;
 			}
 		}
 
-		tBTNodePtr item = malloc(sizeof(struct tBTNode));
+		tBTNodePtr item = malloc(sizeof(struct tBTNode)); // allocate new item
 		item->Cont = Content;
 		item->LPtr = NULL;
 		item->RPtr = NULL;
 
-		if(previous->Cont > Content){
+		if(previous->Cont > Content){ // bind it with the left pointer
 			previous->LPtr = item;
 			
 		}
-		else if(previous->Cont < Content){
+		else if(previous->Cont < Content){ // bind it with the right pointer
 			previous->RPtr = item;
 		}
 
@@ -245,10 +245,10 @@ void Leftmost_Preorder (tBTNodePtr ptr, tStackP *Stack)	{
 ** a ukazatele na ně is uložíme do zásobníku.
 **/
 
-	while(ptr != NULL){
-		SPushP(Stack, ptr);
-		BTWorkOut(ptr);
-		ptr = ptr->LPtr;
+	while(ptr != NULL){ // while pointer is not null
+		SPushP(Stack, ptr); // push stack
+		BTWorkOut(ptr); // work out the node
+		ptr = ptr->LPtr; // move to the left
 	}
 		
 }
@@ -260,16 +260,16 @@ void BTPreorder (tBTNodePtr RootPtr)	{
 ** realizujte jako volání funkce BTWorkOut(). 
 **/
 
-	if(RootPtr == NULL){
+	if(RootPtr == NULL){ // not initialized, return
 		return;
 	}
 	else{
-		tStackP stack;
-		SInitP(&stack);
-		Leftmost_Preorder(RootPtr, &stack);
-		while(!SEmptyP(&stack)){
-			RootPtr = STopPopP(&stack);
-			Leftmost_Preorder(RootPtr->RPtr, &stack);
+		tStackP stack; // stack variable
+		SInitP(&stack); // initialize stack
+		Leftmost_Preorder(RootPtr, &stack); // use Leftmost_Preorder
+		while(!SEmptyP(&stack)){ // while stack is not empty
+			RootPtr = STopPopP(&stack); // pop the top of stack
+			Leftmost_Preorder(RootPtr->RPtr, &stack); // go to right
 		}
 	}
 	
@@ -287,9 +287,9 @@ void Leftmost_Inorder(tBTNodePtr ptr, tStackP *Stack)		{
 ** zásobníku. 
 **/
 	
-	while(ptr!= NULL){
-		SPushP(Stack, ptr);
-		ptr = ptr->LPtr;
+	while(ptr!= NULL){ // while ptr is not null
+		SPushP(Stack, ptr); // push the pointer to stack
+		ptr = ptr->LPtr; // go to left
 	}	
 	
 }
@@ -301,23 +301,21 @@ void BTInorder (tBTNodePtr RootPtr)	{
 ** realizujte jako volání funkce BTWorkOut(). 
 **/
 
-	if(RootPtr == NULL){
+	if(RootPtr == NULL){ // if not initialized, return
 		return;
 	}
 	else{
-		tStackP stack;
-		SInitP(&stack);
-		Leftmost_Inorder(RootPtr, &stack);
-		while(!SEmptyP(&stack)){
-			RootPtr = STopPopP(&stack);
-			BTWorkOut(RootPtr);
-			if(RootPtr->RPtr != NULL){
-				Leftmost_Inorder(RootPtr->RPtr, &stack);
-			}
+		tStackP stack; // variable for stack
+		SInitP(&stack); // initialize stack
+		Leftmost_Inorder(RootPtr, &stack); // use Leftmost_Inorder
+		while(!SEmptyP(&stack)){ // while stack is not empty
+			RootPtr = STopPopP(&stack);  // pop the stack
+			BTWorkOut(RootPtr); // work out the node
+			Leftmost_Inorder(RootPtr->RPtr, &stack); // use Leftmost_Inorder
 		}
 	}
-		
 }
+		
 
 /*                                 POSTORDER                                  */ 
 
@@ -330,10 +328,10 @@ void Leftmost_Postorder (tBTNodePtr ptr, tStackP *StackP, tStackB *StackB) {
 ** navštíven poprvé a že se tedy ještě nemá zpracovávat. 
 **/
 
-	while(ptr != NULL){
-		SPushP(StackP, ptr);
-		SPushB(StackB, true);
-		ptr = ptr->LPtr;
+	while(ptr != NULL){ // while pointer is not null
+		SPushP(StackP, ptr); // push ptr to stackP
+		SPushB(StackB, true); // push true to stackB
+		ptr = ptr->LPtr; // go to left
 	}
 		
 }
@@ -346,7 +344,7 @@ void BTPostorder (tBTNodePtr RootPtr)	{
 **/
 
 
-	if(RootPtr == NULL){
+	if(RootPtr == NULL){ // if not initialized, return
 		return;
 	}
 	else{
@@ -354,20 +352,20 @@ void BTPostorder (tBTNodePtr RootPtr)	{
 		tStackP stack;
 		tStackB booleans;
 
-		SInitP(&stack);
-		SInitB(&booleans);
-		Leftmost_Postorder(RootPtr,&stack, &booleans);
-		while(!SEmptyP(&stack)){
-			RootPtr = STopPopP(&stack);
-			SPushP(&stack, RootPtr);
-			left = STopPopB(&booleans);
-			if(left == true){
-				SPushB(&booleans, false);
-				Leftmost_Postorder(RootPtr->RPtr, &stack, &booleans);
+		SInitP(&stack); // init stack
+		SInitB(&booleans); // init booleans
+		Leftmost_Postorder(RootPtr,&stack, &booleans); // use Leftmost_Postorder
+		while(!SEmptyP(&stack)){ // while stack is not empty
+			RootPtr = STopPopP(&stack); // pop the stack
+			SPushP(&stack, RootPtr); // put it back, because we just need the top value
+			left = STopPopB(&booleans); // pop boolean
+			if(left == true){ // if left is true
+				SPushB(&booleans, false); // push false to boolean stack
+				Leftmost_Postorder(RootPtr->RPtr, &stack, &booleans); // use Leftmost_postorser
 			}
-			else{
-				STopPopP(&stack);
-				BTWorkOut(RootPtr);
+			else{ // left is false
+				STopPopP(&stack); // pop the stack
+				BTWorkOut(RootPtr); // workout the node
 			}
 
 		}
@@ -387,27 +385,23 @@ void BTDisposeTree (tBTNodePtr *RootPtr)	{
 	tStackP stack;
 	tBTNodePtr tmp;
 
-	if((*RootPtr) == NULL){
-		return;
-	}
-	else{
-		SInitP(&stack);
-		do{
-			if((*RootPtr) == NULL){
-				if(!SEmptyP(&stack)){
-					(*RootPtr) = STopPopP(&stack);
-				}
+	SInitP(&stack); // init stack
+	do{
+		if((*RootPtr) == NULL){ // if not initialized
+			if(!SEmptyP(&stack)){
+				(*RootPtr) = STopPopP(&stack);
 			}
-			else{
-				if((*RootPtr)->RPtr != NULL){
-					SPushP(&stack, (*RootPtr)->RPtr);
-				}
-				tmp = (*RootPtr);
-				(*RootPtr) = (*RootPtr)->LPtr;
-				free(tmp);
+		}
+		else{
+			if((*RootPtr)->RPtr != NULL){ // if right is not null
+				SPushP(&stack, (*RootPtr)->RPtr); // push to the stack
 			}
-		} while((*RootPtr) != NULL || (!SEmptyP(&stack)));
-	}
+			tmp = (*RootPtr);
+			(*RootPtr) = (*RootPtr)->LPtr;
+			free(tmp); // free the node
+		}
+	} while((*RootPtr) != NULL || (!SEmptyP(&stack)));
+	
 	
 }
 

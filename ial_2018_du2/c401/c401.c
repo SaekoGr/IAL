@@ -57,8 +57,7 @@ void BSTInit (tBSTNodePtr *RootPtr) {
 **/
 	
 	
-	
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	(*RootPtr) = NULL;	// initialize tree
 	
 }	
 
@@ -77,9 +76,24 @@ int BSTSearch (tBSTNodePtr RootPtr, char K, int *Content)	{
 ** pomocnou funkci.
 **/
 							   
-	
-
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	if(RootPtr == NULL){ // not initialized first node
+		return FALSE; // return false
+	}
+	else{
+		if(RootPtr->Key == K){ // we found our key
+			*Content = RootPtr->BSTNodeCont; // save it into content
+			return TRUE; // return that we found it
+		}
+		else if(RootPtr->Key > K){ // key is smaller, go to left side
+			return BSTSearch(RootPtr->LPtr, K, Content);
+		}
+		else if(RootPtr->Key < K){ // key is bigger, go to right side
+			return BSTSearch(RootPtr->RPtr, K, Content);
+		}
+		else{ // could't find it, return false
+			return FALSE;
+		}
+	}
 	
 } 
 
@@ -102,8 +116,26 @@ void BSTInsert (tBSTNodePtr* RootPtr, char K, int Content)	{
 **/
 		
 	
-	
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	if((*RootPtr) == NULL){ // if it points to null, create new
+		(*RootPtr) = malloc(sizeof(struct tBSTNode));
+		(*RootPtr)->Key = K; // save key and content
+		(*RootPtr)->BSTNodeCont = Content;
+		(*RootPtr)->LPtr = NULL; // set pointers to NULL
+		(*RootPtr)->RPtr = NULL;
+
+	}
+	else{
+		if((*RootPtr)->Key == K){ // we found the key
+			(*RootPtr)->BSTNodeCont = Content;
+		}
+		else if((*RootPtr)->Key > K){ // key is smaller, go to left side
+			BSTInsert(&(*RootPtr)->LPtr, K, Content);
+		}
+		else if((*RootPtr)->Key < K){ // key is bigger, go to right side
+			BSTInsert(&(*RootPtr)->RPtr, K, Content);
+		}
+		
+	}	
 	
 }
 
@@ -119,10 +151,25 @@ void ReplaceByRightmost (tBSTNodePtr PtrReplaced, tBSTNodePtr *RootPtr) {
 ** Tato pomocná funkce bude použita dále. Než ji začnete implementovat,
 ** přečtěte si komentář k funkci BSTDelete(). 
 **/
+
+	tBSTNodePtr tmp = NULL;
 	
-	
-		
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	if((*RootPtr) == NULL){ // if not initialized, return
+		return;
+	}
+	else{
+		if((*RootPtr)->RPtr == NULL){ // if right pointer is NULL
+			PtrReplaced->Key = (*RootPtr)->Key; // save the key
+			PtrReplaced->BSTNodeCont = (*RootPtr)->BSTNodeCont; // bind it together
+			tmp = (*RootPtr); // save tmp pointer
+			(*RootPtr) = (*RootPtr)->LPtr; // set new rootptr to left one
+			free(tmp); // free memory
+			
+		}
+		else{
+			ReplaceByRightmost(PtrReplaced, &(*RootPtr)->RPtr); // not found, go to right again
+		}
+	}
 	
 }
 
@@ -139,10 +186,40 @@ void BSTDelete (tBSTNodePtr *RootPtr, char K) 		{
 ** pomocné funkce ReplaceByRightmost.
 **/
 	
-	
-	
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
+	tBSTNodePtr tmp = NULL;
 
+	if((*RootPtr) == NULL){ // if not initialized, return
+		return;
+	}
+	else{
+		if((*RootPtr)->Key == K){ // we found the correct key, we can start deleting
+			if((*RootPtr)->RPtr == NULL && (*RootPtr)->LPtr == NULL){ // is doesn't have following lists
+				free((*RootPtr));
+				(*RootPtr) = NULL;
+			}
+			else if((*RootPtr)->RPtr != NULL && (*RootPtr)->LPtr == NULL){ // it has right side
+				tmp = (*RootPtr);
+				(*RootPtr) = (*RootPtr)->RPtr;
+				free(tmp);
+				tmp = NULL;
+			}
+			else if((*RootPtr)->RPtr == NULL && (*RootPtr)->LPtr != NULL){ // it has left side
+				tmp = (*RootPtr);
+				(*RootPtr) = (*RootPtr)->LPtr;
+				free(tmp);
+				tmp = NULL;
+			}
+			else{
+				ReplaceByRightmost(*RootPtr, &((*RootPtr)->LPtr)); // it has both sides, have to replace it
+			}
+		}
+		else if((*RootPtr)->Key < K){ // go to right side
+			BSTDelete(&(*RootPtr)->RPtr, K);
+		}
+		else if((*RootPtr)->Key > K){ // go to left side
+			BSTDelete(&(*RootPtr)->LPtr, K);
+		}
+	}
 } 
 
 void BSTDispose (tBSTNodePtr *RootPtr) {	
@@ -154,9 +231,12 @@ void BSTDispose (tBSTNodePtr *RootPtr) {
 ** funkce.
 **/
 	
-
-	 solved = FALSE;		  /* V případě řešení smažte tento řádek! */	
-
+	if((*RootPtr) != NULL){ // free it if it is not NULL
+		BSTDispose(&(*RootPtr)->LPtr); // left side
+		BSTDispose(&(*RootPtr)->RPtr); // right side
+		free((*RootPtr));
+	}
+	(*RootPtr) = NULL;
 }
 
 /* konec c401.c */
