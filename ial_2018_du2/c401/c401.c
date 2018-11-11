@@ -151,8 +151,6 @@ void ReplaceByRightmost (tBSTNodePtr PtrReplaced, tBSTNodePtr *RootPtr) {
 ** Tato pomocná funkce bude použita dále. Než ji začnete implementovat,
 ** přečtěte si komentář k funkci BSTDelete(). 
 **/
-
-	tBSTNodePtr tmp = NULL;
 	
 	if((*RootPtr) == NULL){ // if not initialized, return
 		return;
@@ -161,10 +159,6 @@ void ReplaceByRightmost (tBSTNodePtr PtrReplaced, tBSTNodePtr *RootPtr) {
 		if((*RootPtr)->RPtr == NULL){ // if right pointer is NULL
 			PtrReplaced->Key = (*RootPtr)->Key; // save the key
 			PtrReplaced->BSTNodeCont = (*RootPtr)->BSTNodeCont; // bind it together
-			tmp = (*RootPtr); // save tmp pointer
-			(*RootPtr) = (*RootPtr)->LPtr; // set new rootptr to left one
-			free(tmp); // free memory
-			
 		}
 		else{
 			ReplaceByRightmost(PtrReplaced, &(*RootPtr)->RPtr); // not found, go to right again
@@ -209,8 +203,10 @@ void BSTDelete (tBSTNodePtr *RootPtr, char K) 		{
 				free(tmp);
 				tmp = NULL;
 			}
-			else{
-				ReplaceByRightmost(*RootPtr, &((*RootPtr)->LPtr)); // it has both sides, have to replace it
+			else{ // it has both sides, so we have to replace it
+				tmp = (*RootPtr);
+				ReplaceByRightmost(tmp, &((*RootPtr)->LPtr)); 
+				BSTDelete(&(*RootPtr)->LPtr, tmp->Key); // delete it
 			}
 		}
 		else if((*RootPtr)->Key < K){ // go to right side

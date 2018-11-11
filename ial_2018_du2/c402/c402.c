@@ -246,8 +246,8 @@ void Leftmost_Preorder (tBTNodePtr ptr, tStackP *Stack)	{
 **/
 
 	while(ptr != NULL){ // while pointer is not null
-		SPushP(Stack, ptr); // push stack
 		BTWorkOut(ptr); // work out the node
+		SPushP(Stack, ptr); // push stack
 		ptr = ptr->LPtr; // move to the left
 	}
 		
